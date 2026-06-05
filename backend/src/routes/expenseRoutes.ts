@@ -1,10 +1,11 @@
 import express from 'express'
 import { Expense, ExpenseStatus } from '../models/Expense'
+import { protect } from '../middleware/authMiddleware'
 
 const router = express.Router()
 
 // ✅ GET all expenses
-router.get('/', async (_req, res) => {
+router.get('/', protect, async (_req, res) => {
   try {
     const expenses = await Expense.find().sort({ createdAt: -1 })
 
@@ -17,7 +18,7 @@ router.get('/', async (_req, res) => {
 })
 
 // ✅ CREATE expense
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
   try {
     const { title, amount } = req.body
 
@@ -43,7 +44,7 @@ router.post('/', async (req, res) => {
 })
 
 // ✅ APPROVE expense
-router.patch('/:id/approve', async (req, res) => {
+router.patch('/:id/approve', protect, async (req, res) => {
   try {
     const updatedExpense = await Expense.findByIdAndUpdate(
       req.params.id,

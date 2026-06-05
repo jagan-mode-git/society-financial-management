@@ -11,10 +11,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/payments";
-const FAMILY_API = "http://localhost:5000/api/families";
+import api from '../api/axios'
 
 export default function Payments() {
   const [amount, setAmount] = useState<number>(0);
@@ -24,7 +21,7 @@ export default function Payments() {
 
   // ✅ Fetch families
   const fetchFamilies = async () => {
-    const res = await axios.get(FAMILY_API);
+    const res = await api.get('/families');
     setFamilies(res.data);
 
     console.log("family id", res.data )
@@ -37,7 +34,7 @@ export default function Payments() {
 
   // ✅ Fetch payments
   const fetchPayments = async () => {
-    const res = await axios.get(API_URL);
+    const res = await api.get('/payments');
     setPayments(res.data);
   };
 
@@ -50,7 +47,7 @@ export default function Payments() {
   const addPayment = async () => {
     if (!familyId || !amount) return alert("Enter all fields");
 
-    await axios.post(API_URL, {
+    await api.post('/payments', {
       familyId,
       amount,
     });

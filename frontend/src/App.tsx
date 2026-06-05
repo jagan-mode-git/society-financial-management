@@ -6,6 +6,7 @@ import Payments from './pages/Payments'
 import Expenses from './pages/Expenses'
 import Reports from './pages/Reports'
 import MainLayout from './components/MainLayout'
+import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
   return (
@@ -16,7 +17,11 @@ export default function App() {
 
         {/* ✅ All pages with Navbar */}
         <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
           <Route path="/families" element={<Families />} />
           <Route path="/payments" element={<Payments />} />
           <Route path="/expenses" element={<Expenses />} />

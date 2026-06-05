@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express'
 import { Payment } from '../models/Payment'
+import { protect } from '../middleware/authMiddleware'
 
 const router = express.Router()
 
 // ✅ GET payments (with filters)
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', protect, async (req: Request, res: Response) => {
   try {
     const { familyId, startDate, endDate } = req.query
 
@@ -32,7 +33,7 @@ router.get('/', async (req: Request, res: Response) => {
 })
 
 // ✅ CREATE payment
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', protect, async (req: Request, res: Response) => {
   try {
     const { familyId, amount } = req.body
 
@@ -61,7 +62,7 @@ router.post('/', async (req: Request, res: Response) => {
 })
 
 // ✅ GET single payment
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', protect, async (req: Request, res: Response) => {
   try {
     const payment = await Payment.findById(req.params.id).populate('familyId')
 
@@ -76,7 +77,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 // ✅ UPDATE payment
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', protect, async (req: Request, res: Response) => {
   try {
     const { amount, fine } = req.body
 
@@ -97,7 +98,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 })
 
 // ✅ DELETE payment
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', protect,  async (req: Request, res: Response) => {
   try {
     const deleted = await Payment.findByIdAndDelete(req.params.id)
 
@@ -112,7 +113,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
 })
 
 // ✅ REPORT: Monthly summary (🔥 very useful)
-router.get('/reports/monthly', async (_req: Request, res: Response) => {
+router.get('/reports/monthly', protect, async (_req: Request, res: Response) => {
   try {
     const result = await Payment.aggregate([
       {

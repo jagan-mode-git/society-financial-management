@@ -1,9 +1,6 @@
 import { Card, CardContent, Typography, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
-
-const FAMILY_API = 'http://localhost:5000/api/families'
-const PAYMENT_API = 'http://localhost:5000/api/payments'
+import api from '../api/axios'
 
 export default function Dashboard() {
   const [families, setFamilies] = useState<any[]>([])
@@ -11,8 +8,8 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     const [fRes, pRes] = await Promise.all([
-      axios.get(FAMILY_API),
-      axios.get(PAYMENT_API)
+      api.get('/families'),
+      api.get('/payments')
     ])
 
     setFamilies(fRes.data)

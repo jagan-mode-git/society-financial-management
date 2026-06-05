@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express'
 import { Family } from '../models/Family'
+import { protect } from '../middleware/authMiddleware'
 
 const router = express.Router()
 
 // ✅ Create Family
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', protect, async (req: Request, res: Response) => {
   try {
     const { name, flatNumber } = req.body
 
@@ -26,7 +27,7 @@ router.post('/', async (req: Request, res: Response) => {
 })
 
 // ✅ Get All Families
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', protect,  async (_req: Request, res: Response) => {
   try {
     const families = await Family.find().sort({ createdAt: -1 })
     res.json(families)
@@ -51,7 +52,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 // ✅ Update Family
-router.put('/:id', async (req: Request, res: Response) => {
+router.put('/:id', protect, async (req: Request, res: Response) => {
   try {
     const { name, flatNumber } = req.body
 
@@ -76,7 +77,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 })
 
 // ✅ Delete Family
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', protect, async (req: Request, res: Response) => {
   try {
     const deleted = await Family.findByIdAndDelete(req.params.id)
 

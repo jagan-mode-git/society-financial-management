@@ -1,9 +1,6 @@
 import { Typography, Card, CardContent, Grid, List, ListItem, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
-
-const FAMILY_API = 'http://localhost:5000/api/families'
-const PAYMENT_API = 'http://localhost:5000/api/payments'
+import api from '../api/axios'
 
 const getMonthKey = (date: Date) =>
   `${date.getFullYear()}-${date.getMonth() + 1}`
@@ -14,8 +11,8 @@ export default function Reports() {
 
   const fetchData = async () => {
     const [fRes, pRes] = await Promise.all([
-      axios.get(FAMILY_API),
-      axios.get(PAYMENT_API)
+      api.get('/families'),
+      api.get('/payments')
     ])
 
     setFamilies(fRes.data)

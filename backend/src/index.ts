@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 
+import authRoutes from './routes/authRoutes'
 import familyRoutes from './routes/familyRoutes'
 import paymentRoutes from './routes/paymentRoutes'
 import expenseRoutes from './routes/expenseRoutes'
@@ -21,6 +22,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // ✅ Routes
+app.use('/api/auth', authRoutes)
 app.use('/api/families', familyRoutes)
 app.use('/api/payments', paymentRoutes)
 app.use('/api/expenses', expenseRoutes)

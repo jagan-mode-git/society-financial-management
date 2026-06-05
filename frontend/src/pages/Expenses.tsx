@@ -1,8 +1,7 @@
 import { TextField, Button, List, ListItem, Typography, Chip, Box } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-
-const EXPENSES_API = 'http://localhost:5000/api/expenses'
+import api from '../api/axios'
 
 interface Expense {
   id: string
@@ -18,7 +17,7 @@ export default function Expenses() {
 
   // Fetch families from backend
   const fetchExpenses = async () => {
-    const res = await axios.get(EXPENSES_API)
+    const res = await api.get('/expenses')
     setExpenses(res.data)
   }
 
@@ -32,7 +31,7 @@ export default function Expenses() {
       return
     }
 
-    await axios.post(EXPENSES_API, {
+    await api.post('/expenses', {
       title,
       amount
     })
@@ -44,7 +43,7 @@ export default function Expenses() {
   }
 
   const approve = async (id: string) => {
-    await axios.patch(`${EXPENSES_API}/${id}/approve`)
+    await api.patch(`/expenses/${id}/approve`)
     fetchExpenses()
   }
 

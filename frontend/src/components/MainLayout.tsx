@@ -1,7 +1,14 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 export default function MainLayout() {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.clear()
+    navigate('/login')
+  }
   return (
     <Box>
       <AppBar position="static">
@@ -15,6 +22,14 @@ export default function MainLayout() {
           <Button color="inherit" component={Link} to="/payments">Payments</Button>
           <Button color="inherit" component={Link} to="/expenses">Expenses</Button>
           <Button color="inherit" component={Link} to="/reports">Reports</Button>
+          {/* Logout */}
+          <Button
+            color="inherit"
+            startIcon={<LogoutIcon />}
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
 

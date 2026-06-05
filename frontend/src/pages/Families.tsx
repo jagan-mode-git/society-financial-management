@@ -1,8 +1,6 @@
 import { TextField, Button, List, ListItem, Paper, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
-
-const API_URL = 'http://localhost:5000/api/families'
+import api from '../api/axios'
 
 export default function Families() {
   const [list, setList] = useState<any[]>([])
@@ -11,7 +9,7 @@ export default function Families() {
 
   // Fetch families from backend
   const fetchFamilies = async () => {
-    const res = await axios.get(API_URL)
+    const res = await api.get('/families')
     setList(res.data)
   }
 
@@ -23,7 +21,7 @@ export default function Families() {
   const addFamily = async () => {
     if (!name || !flat) return alert('Enter all fields')
 
-    await axios.post(API_URL, {
+    await api.post('/families', {
       name,
       flatNumber: flat
     })
